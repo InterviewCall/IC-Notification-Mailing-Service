@@ -33,7 +33,7 @@ MailGroup.init({
     },
 
     name: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(100),
         validate: {
             notEmpty: {
                 msg: 'Group name is required'
