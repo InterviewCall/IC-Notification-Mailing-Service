@@ -18,7 +18,10 @@ Domain.init({
 
     name: {
         type: DataTypes.STRING(100),
-        unique: true,
+        unique: {
+            name: 'name',
+            msg: 'Domain already exists'
+        },
         allowNull: false
     },
 
