@@ -27,7 +27,7 @@ class MailGroup extends Model<InferAttributes<MailGroup>, InferCreationAttribute
 
 MailGroup.init({
     id: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.NUMBER,
         primaryKey: true,
         autoIncrement: true
     },

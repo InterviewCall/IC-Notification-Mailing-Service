@@ -11,7 +11,7 @@ class MailGroupContact extends Model<InferAttributes<MailGroupContact>, InferCre
 
 MailGroupContact.init({
     groupId: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.NUMBER,
         primaryKey: true,
         allowNull: false,
         references: {
