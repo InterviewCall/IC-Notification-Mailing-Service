@@ -1,10 +1,10 @@
-import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import { CreationOptional, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 
 import Domain from './Domain';
 import sequelize from './sequelize';
 
 class SenderEmail extends Model<InferAttributes<SenderEmail>, InferCreationAttributes<SenderEmail>> {
-    declare id: number;
+    declare id: CreationOptional<number>;
     declare name: string;
     declare domainId: ForeignKey<Domain['id']>;
 }
