@@ -1,5 +1,6 @@
-import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import { Association, CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize';
 
+import MailGroup from './MailGroup';
 import sequelize from './sequelize';
 
 class MailContact extends Model<InferAttributes<MailContact>, InferCreationAttributes<MailContact>> {
@@ -8,6 +9,13 @@ class MailContact extends Model<InferAttributes<MailContact>, InferCreationAttri
     declare email: string;
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
+    declare deletedAt: CreationOptional<Date>;
+
+    declare groups: NonAttribute<MailGroup[]>;
+    
+    static associations: {
+        groups: Association<MailContact, MailGroup>
+    };
 }
 
 MailContact.init({
@@ -24,7 +32,10 @@ MailContact.init({
 
     email: {
         type: DataTypes.STRING(100),
-        unique: true,
+        unique: {
+            name: 'email',
+            msg: 'Email already exists'
+        },
         allowNull: false
     },
 
@@ -36,6 +47,10 @@ MailContact.init({
     updatedAt: {
         type: DataTypes.DATE,
         allowNull: false
+    },
+    deletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true
     }
 }, {
     tableName: 'mail_contacts',
