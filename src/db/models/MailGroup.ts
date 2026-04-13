@@ -6,7 +6,7 @@ import sequelize from './sequelize';
 class MailGroup extends Model<InferAttributes<MailGroup>, InferCreationAttributes<MailGroup>> {
     declare id: CreationOptional<number>;
     declare name: string;
-    declare description: string;
+    declare description: string | null;
     declare totalContacts: CreationOptional<number>;
     declare createdBy: number;
     declare createdAt: CreationOptional<Date>;
@@ -64,7 +64,7 @@ MailGroup.init({
 
     description: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: true
     },
 
     createdAt: {
