@@ -6,7 +6,7 @@ import sequelize from './sequelize';
 class MailGroup extends Model<InferAttributes<MailGroup>, InferCreationAttributes<MailGroup>> {
     declare id: CreationOptional<number>;
     declare name: string;
-    declare description: string | null;
+    declare description: string;
     declare totalContacts: CreationOptional<number>;
     declare createdBy: number;
     declare createdAt: CreationOptional<Date>;
@@ -18,7 +18,7 @@ class MailGroup extends Model<InferAttributes<MailGroup>, InferCreationAttribute
     declare addContact: BelongsToManyAddAssociationMixin<MailContact, number>;
     declare addContacts: BelongsToManyAddAssociationsMixin<MailContact, number>;
     declare removeContact: BelongsToManyRemoveAssociationMixin<MailContact, number>;
-    declare removeContacs: BelongsToManyRemoveAssociationsMixin<MailContact, number>;
+    declare removeContacts: BelongsToManyRemoveAssociationsMixin<MailContact, number>;
 
     static associations: {
         contacts: Association<MailGroup, MailContact>
@@ -39,7 +39,11 @@ MailGroup.init({
                 msg: 'Group name is required'
             }
         },
-        allowNull: false
+        allowNull: false,
+        unique: {
+            name: 'group_name',
+            msg: 'Group name already exists'
+        }
     },
 
     createdBy: {
@@ -60,7 +64,7 @@ MailGroup.init({
 
     description: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: false
     },
 
     createdAt: {
