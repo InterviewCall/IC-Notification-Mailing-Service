@@ -1,5 +1,6 @@
-import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import { Association, BelongsToManyGetAssociationsMixin, CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize';
 
+import Sender from './sender.model';
 import sequelize from './sequelize';
 
 class Domain extends Model<InferAttributes<Domain>, InferCreationAttributes<Domain>> {
@@ -7,11 +8,18 @@ class Domain extends Model<InferAttributes<Domain>, InferCreationAttributes<Doma
     declare name: string;
     declare createdBy: number;
     declare createdAt: CreationOptional<Date>;
+
+    declare senders?: NonAttribute<Sender[]>;
+    declare getSenders: BelongsToManyGetAssociationsMixin<Sender>;
+
+    static associations: {
+        senders: Association<Domain, Sender>
+    };
 }
 
 Domain.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.INTEGER.UNSIGNED,
         primaryKey: true,
         autoIncrement: true
     },
@@ -26,7 +34,7 @@ Domain.init({
     },
 
     createdBy: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },
 

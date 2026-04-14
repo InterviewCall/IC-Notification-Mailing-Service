@@ -1,6 +1,6 @@
 import { Association, BelongsToManyAddAssociationMixin, BelongsToManyAddAssociationsMixin, BelongsToManyGetAssociationsMixin, BelongsToManyRemoveAssociationMixin, BelongsToManyRemoveAssociationsMixin, CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize';
 
-import MailContact from './MailContact';
+import MailContact from './mailContact.model';
 import sequelize from './sequelize';
 
 class MailGroup extends Model<InferAttributes<MailGroup>, InferCreationAttributes<MailGroup>> {
@@ -27,7 +27,7 @@ class MailGroup extends Model<InferAttributes<MailGroup>, InferCreationAttribute
 
 MailGroup.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT.UNSIGNED,
         primaryKey: true,
         autoIncrement: true
     },
@@ -64,7 +64,8 @@ MailGroup.init({
 
     description: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
+        defaultValue: null
     },
 
     createdAt: {

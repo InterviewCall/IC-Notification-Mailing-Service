@@ -1,14 +1,12 @@
-'use strict';
-
 import { QueryInterface } from 'sequelize';
 
 export default {
     async up (queryInterface: QueryInterface) {
         await queryInterface.sequelize.query(`
-            CREATE TABLE IF NOT EXISTS sender_emails (
-                id INT PRIMARY KEY AUTO_INCREMENT,
-                name VARCHAR(100) NOT NULL,
-                domain_id INT NOT NULL,
+            CREATE TABLE IF NOT EXISTS senders (
+                id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+                address VARCHAR(100) NOT NULL,
+                domain_id INT UNSIGNED NOT NULL,
                 FOREIGN KEY (domain_id) REFERENCES domains(id)
             );
         `);
@@ -16,7 +14,7 @@ export default {
 
     async down (queryInterface: QueryInterface) {
         await queryInterface.sequelize.query(`
-            DROP TABLE IF EXISTS sender_emails;
+            DROP TABLE IF EXISTS senders;
         `);
     }
 };

@@ -1,7 +1,7 @@
 import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 
-import MailContact from './MailContact';
-import MailGroup from './MailGroup';
+import MailContact from './mailContact.model';
+import MailGroup from './mailGroup.model';
 import sequelize from './sequelize';
 
 class MailGroupContact extends Model<InferAttributes<MailGroupContact>, InferCreationAttributes<MailGroupContact>> {
@@ -11,7 +11,7 @@ class MailGroupContact extends Model<InferAttributes<MailGroupContact>, InferCre
 
 MailGroupContact.init({
     groupId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT.UNSIGNED,
         primaryKey: true,
         allowNull: false,
         references: {
@@ -23,7 +23,7 @@ MailGroupContact.init({
     },
 
     contactId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT.UNSIGNED,
         primaryKey: true,
         allowNull: false,
         references: {
