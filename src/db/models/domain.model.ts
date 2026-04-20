@@ -1,5 +1,6 @@
-import {  CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import { Association, CreationOptional, DataTypes, HasManyAddAssociationsMixin, HasManyGetAssociationsMixin, InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize';
 
+import DnsRecord from './dnsRecord.model';
 import sequelize from './sequelize';
 
 class Domain extends Model<InferAttributes<Domain>, InferCreationAttributes<Domain>> {
@@ -15,9 +16,13 @@ class Domain extends Model<InferAttributes<Domain>, InferCreationAttributes<Doma
     declare updatedAt: CreationOptional<Date>;
     declare deletedAt: CreationOptional<Date | null>;
 
-    // static associations: {
-    //     senders: Association<Domain, Sender>
-    // };
+    declare dnsRecords?: NonAttribute<DnsRecord[]>;
+    declare getDnsRecords?: HasManyGetAssociationsMixin<DnsRecord>;
+    declare addDnsRecords?: HasManyAddAssociationsMixin<DnsRecord, number>;
+
+    static associations: {
+        dnsRecords: Association<Domain, DnsRecord>
+    };
 }
 
 Domain.init({
@@ -76,13 +81,13 @@ Domain.init({
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Date.now()
+        defaultValue: DataTypes.NOW
     },
 
     updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Date.now()
+        defaultValue: DataTypes.NOW
     },
 
     deletedAt: {

@@ -78,13 +78,13 @@ DnsRecord.init({
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Date.now()
+        defaultValue: DataTypes.NOW
     },
 
     updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Date.now()
+        defaultValue: DataTypes.NOW
     },
 }, {
     tableName: 'dns_records',
@@ -92,3 +92,5 @@ DnsRecord.init({
     timestamps: true,
     sequelize,
 });
+
+export default DnsRecord;
