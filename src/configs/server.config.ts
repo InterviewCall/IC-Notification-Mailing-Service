@@ -13,6 +13,18 @@ type DBConfig = {
     DB_NAME: string
 }
 
+type AwsConfig = {
+    AWS_REGION: string,
+    AWS_ACCESS_KEY_ID: string,
+    AWS_SECRET_ACCESS_KEY: string
+}
+
+export const awsConfig: AwsConfig = {
+    AWS_REGION: process.env.AWS_REGION || '',
+    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID || '',
+    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY || ''
+};
+
 export const dbConfig: DBConfig = {
     DB_HOST: process.env.DB_HOST || 'localhost',
     DB_USER: process.env.DB_USER || 'root',

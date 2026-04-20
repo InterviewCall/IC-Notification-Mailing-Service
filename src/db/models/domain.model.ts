@@ -1,20 +1,23 @@
-import { Association, BelongsToManyGetAssociationsMixin, CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize';
+import {  CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 
-import Sender from './sender.model';
 import sequelize from './sequelize';
 
 class Domain extends Model<InferAttributes<Domain>, InferCreationAttributes<Domain>> {
     declare id: CreationOptional<number>;
-    declare name: string;
+    declare domain: string;
+    declare identityType: CreationOptional<string>;
+    declare verificationStatus: string | null;
+    declare dkimStatus: string | null;
+    declare dkimSigningAttributesOrigin: string | null;
+    declare isVerified: CreationOptional<boolean>;
     declare createdBy: number;
     declare createdAt: CreationOptional<Date>;
+    declare updatedAt: CreationOptional<Date>;
+    declare deletedAt: CreationOptional<Date | null>;
 
-    declare senders?: NonAttribute<Sender[]>;
-    declare getSenders: BelongsToManyGetAssociationsMixin<Sender>;
-
-    static associations: {
-        senders: Association<Domain, Sender>
-    };
+    // static associations: {
+    //     senders: Association<Domain, Sender>
+    // };
 }
 
 Domain.init({
@@ -24,13 +27,45 @@ Domain.init({
         autoIncrement: true
     },
 
-    name: {
-        type: DataTypes.STRING(100),
+    domain: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
         unique: {
-            name: 'name',
-            msg: 'Domain already exists'
+            name: 'unique_ses_domain',
+            msg: 'This SES subdomain already exists',
         },
-        allowNull: false
+        validate: {
+            notEmpty: {
+                msg: 'Subdomain is required',
+            },
+        },
+    },
+
+    identityType: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+        defaultValue: 'DOMAIN',
+    },
+
+    verificationStatus: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+    },
+
+    dkimStatus: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+    },
+
+    dkimSigningAttributesOrigin: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+    },
+
+    isVerified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
     },
 
     createdBy: {
@@ -41,12 +76,24 @@ Domain.init({
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: DataTypes.NOW
+        defaultValue: Date.now()
+    },
+
+    updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Date.now()
+    },
+
+    deletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null
     }
 }, {
     tableName: 'domains',
     underscored: true,
-    timestamps: false,
+    timestamps: true,
     sequelize
 });
 

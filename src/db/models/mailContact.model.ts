@@ -8,6 +8,7 @@ class MailContact extends Model<InferAttributes<MailContact>, InferCreationAttri
     declare fullName: string;
     declare email: string;
     declare createdAt: CreationOptional<Date>;
+    declare updatedAt: CreationOptional<Date>;
     declare deletedAt: CreationOptional<Date>;
 
     declare groups?: NonAttribute<MailGroup[]>;
@@ -39,6 +40,11 @@ MailContact.init({
     },
 
     createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+
+    updatedAt: {
         type: DataTypes.DATE,
         allowNull: false
     },

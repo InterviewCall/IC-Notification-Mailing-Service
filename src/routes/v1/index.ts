@@ -1,9 +1,15 @@
 import express from 'express';
 
+import createContactAndAttachToGroupRouter from './createContactAndAttachToGroup.route';
+import mailGroupRouter from './mailGroup.route';
 import pingRouter from './ping.route';
 
 const v1Router = express.Router();
 
 v1Router.use('/ping', pingRouter);
+
+v1Router.use('/uploads', createContactAndAttachToGroupRouter);
+
+v1Router.use('/groups', mailGroupRouter);
 
 export default v1Router;
